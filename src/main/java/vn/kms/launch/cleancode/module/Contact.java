@@ -1,7 +1,6 @@
 package vn.kms.launch.cleancode.module;
 
-import vn.kms.launch.cleancode.annotations.Column;
-import vn.kms.launch.cleancode.annotations.NotNull;
+import vn.kms.launch.cleancode.annotations.*;
 
 public class Contact {
 
@@ -10,30 +9,40 @@ public class Contact {
   private int id;
 
   @Column(name="first_name")
+  @NotEmpty
+  @MaxLength(value = 10)
   private String firstName;
 
   @Column(name="last_name")
+  @NotEmpty
+  @MaxLength(value = 10)
   private String lastName;
 
   @Column(name="address")
+  @MaxLength(value = 20)
   private String address;
 
   @Column(name="city")
+  @MaxLength(value = 15)
   private String city;
 
   @Column(name="state")
   private String state;
 
   @Column(name="zip")
+  @ValidSpecialCharacter(value = "^\\d{4,5}$")
   private String zipCode;
 
   @Column(name="phone1")
+  @ValidSpecialCharacter(value = "^\\d{3}\\-\\d{3}\\-\\d{4}$")
   private String mobilePhone;
 
   @Column(name="email")
+  @ValidSpecialCharacter(value = "^.+@.+\\..+$")
   private String email;
 
   @Column(name="date_of_birth")
+  @NotNull
   private String dayOfBirth;
 
   private int age;
