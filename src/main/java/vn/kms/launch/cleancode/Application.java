@@ -20,11 +20,11 @@ public class Application {
   public static void main(String[] args) throws Exception {
 
     Map<Integer, Map<String, String>> invalidContacts = new LinkedHashMap<>(); // invalidContacts order by ID
-    Map<String, Integer> counts = new HashMap<String, Integer>();
+    Map<String, Integer> fieldErorrCounts = new HashMap<String, Integer>();
 
     List<Contact> contactList = contactService.loadContactList("data/contacts.tsv");
 
-    contactService.checkValidation(contactList, invalidContacts, counts);
+    contactService.checkValidation(contactList, invalidContacts, fieldErorrCounts);
 
     List<Contact> sortedContacts = contactService.sortValidContacts(contactList, invalidContacts, ContactSorter.DATE_OF_BIRTH);
     sortedContacts.get(0);
@@ -32,7 +32,9 @@ public class Application {
     contactService.storeContactData(contactList, invalidContacts, "valid-contacts.tab", contactService.getTsvFileLoader().getHeader());
 
     Map reports = contactService.reportContactData(contactList, invalidContacts);
-    reports.isEmpty();
+
+    contactService.storeRedport(reports, fieldErorrCounts, invalidContacts);
+    String a = "";
   }
 
 }
