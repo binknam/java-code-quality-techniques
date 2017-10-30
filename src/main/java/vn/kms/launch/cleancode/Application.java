@@ -4,6 +4,7 @@ import vn.kms.launch.cleancode.Service.ContactService;
 import vn.kms.launch.cleancode.Service.ContactServiceImpl;
 import vn.kms.launch.cleancode.annotations.NotEmpty;
 import vn.kms.launch.cleancode.component.load.TSVFileLoader;
+import vn.kms.launch.cleancode.component.sort.ContactSorter;
 import vn.kms.launch.cleancode.component.validate.Validation;
 import vn.kms.launch.cleancode.component.validate.ValidationFactory;
 import vn.kms.launch.cleancode.module.Contact;
@@ -14,7 +15,7 @@ import java.util.*;
 
 public class Application {
 
-  public static ContactService contactService = new ContactServiceImpl();
+  public static ContactServiceImpl contactService = new ContactServiceImpl();
 
   public static void main(String[] args) throws Exception {
 
@@ -24,7 +25,14 @@ public class Application {
     List<Contact> contactList = contactService.loadContactList("data/contacts.tsv");
 
     contactService.checkValidation(contactList, invalidContacts, counts);
-    System.out.println(invalidContacts.get(20));
+
+    List<Contact> sortedContacts = contactService.sortValidContacts(contactList, invalidContacts, ContactSorter.DATE_OF_BIRTH);
+    sortedContacts.get(0);
+
+    contactService.storeContactData(contactList, invalidContacts, "valid-contacts.tab", contactService.getTsvFileLoader().getHeader());
+
+    Map reports = contactService.reportContactData(contactList, invalidContacts);
+    reports.isEmpty();
   }
 
 }

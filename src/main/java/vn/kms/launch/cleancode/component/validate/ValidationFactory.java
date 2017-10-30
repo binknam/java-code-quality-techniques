@@ -10,6 +10,8 @@ public class ValidationFactory {
   public static String NOT_NULL_TYPE = "Not null";
   public static String MAX_LENGTH_TYPE = "Max length value";
   public static String VALID_SPECIAL_CHARACTER = "Valid special character";
+  public static String EQUAL_LENGTH_TYPE = "Equal length";
+  public static String VALID_STATE = "Valid state";
 
 
   Field[] fields = Contact.class.getDeclaredFields();
@@ -29,6 +31,12 @@ public class ValidationFactory {
     }
     if (validationType.equals(VALID_SPECIAL_CHARACTER)){
       return new SpecialCharacterValidation();
+    }
+    if (validationType.equals(EQUAL_LENGTH_TYPE)){
+      return new EqualLengthValidation();
+    }
+    if (validationType.equals(VALID_STATE)){
+      return new StateValidation();
     }
     return null;
   }

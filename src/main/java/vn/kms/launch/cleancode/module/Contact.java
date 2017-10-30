@@ -27,6 +27,7 @@ public class Contact {
   private String city;
 
   @Column(name="state")
+  @ValidState
   private String state;
 
   @Column(name="zip")
@@ -43,7 +44,8 @@ public class Contact {
 
   @Column(name="date_of_birth")
   @NotNull
-  private String dayOfBirth;
+  @EqualLength(value = 10)
+  private String dateOfBirth;
 
   private int age;
 
@@ -128,10 +130,10 @@ public class Contact {
   }
 
   public String getDayOfBirth() {
-    return dayOfBirth;
+    return dateOfBirth;
   }
 
   public void setDayOfBirth(String dayOfBirth) {
-    this.dayOfBirth = dayOfBirth;
+    this.dateOfBirth = dayOfBirth;
   }
 }

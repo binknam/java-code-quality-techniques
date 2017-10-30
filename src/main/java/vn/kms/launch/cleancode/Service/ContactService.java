@@ -9,4 +9,10 @@ public interface ContactService {
   public List<Contact> loadContactList(String url);
 
   public void checkValidation(List<Contact> contacts, Map<Integer, Map<String, String>> errors, Map<String, Integer> counts);
+
+  public List<Contact> sortValidContacts(List<Contact> allContacts, Map<Integer, Map<String, String>> invalidContacts, String fieldName);
+
+  public void storeContactData(List<Contact> allContact, Map<Integer, Map<String, String>> invalidContacts, String outputFileName, String[] header);
+
+  public Map reportContactData(List<Contact> allContact, Map<Integer, Map<String, String>> invalidContacts);
 }

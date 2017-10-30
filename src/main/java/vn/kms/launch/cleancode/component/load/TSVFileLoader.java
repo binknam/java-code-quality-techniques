@@ -12,6 +12,16 @@ import java.util.*;
 
 public class TSVFileLoader implements FileLoader {
 
+    private String[] header = null;
+
+    public String[] getHeader() {
+        return header;
+    }
+
+    public void setHeader(String[] header) {
+        this.header = header;
+    }
+
     public TSVFileLoader() throws IOException {
     }
 
@@ -58,7 +68,7 @@ public class TSVFileLoader implements FileLoader {
 
         String[] lines = loadLinesDataFromFile(url);
 
-        String[] header = loadHeader(lines);
+        header = loadHeader(lines);
 
         TSVFileMapOrders tsvFileMapOrders = new TSVFileMapOrders(header);
         Field[] field = Contact.class.getFields();
