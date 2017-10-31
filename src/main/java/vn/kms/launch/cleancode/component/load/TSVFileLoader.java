@@ -25,29 +25,21 @@ public class TSVFileLoader implements FileLoader {
     public TSVFileLoader() throws IOException {
     }
 
-    public String[] loadLinesDataFromFile(String url){
+    public String[] loadLinesDataFromFile(String url) throws IOException {
         List<String> lines = new ArrayList<String>();
-        try {
-            FileReader fileReader = new FileReader(url);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            String line = null;
-            while ((line = bufferedReader.readLine()) != null){
-                lines.add(line);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        FileReader fileReader = new FileReader(url);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        String line = null;
+        while ((line = bufferedReader.readLine()) != null){
+            lines.add(line);
         }
 
         return lines.toArray(new String[0]);
     }
 
-    public String[] loadHeader(String[] lines){
-        if(lines[0] != null){
-            return lines[0].split("\t");
-        }
-        return null;
+    public String[] loadHeader(String[] lines) throws NullPointerException{
+        return lines[0].split("\t");
     }
 
     public boolean isBlankLine(String line){
@@ -64,9 +56,14 @@ public class TSVFileLoader implements FileLoader {
 
 
     @Override
-    public List<Contact> loadData(String url) {
+    public List<Contact> loadData(String url) throws IllegalAccessException {
 
-        String[] lines = loadLinesDataFromFile(url);
+        String[] lines = new String[0];
+        try {
+            lines = loadLinesDataFromFile(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         header = loadHeader(lines);
 

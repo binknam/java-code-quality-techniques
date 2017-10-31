@@ -1,4 +1,4 @@
-package vn.kms.launch.cleancode.Service;
+package vn.kms.launch.cleancode.service;
 
 import vn.kms.launch.cleancode.annotations.*;
 import vn.kms.launch.cleancode.component.load.TSVFileLoader;
@@ -51,7 +51,7 @@ public class ContactServiceImpl implements ContactService {
   }
 
   @Override
-  public List<Contact> loadContactList(String url) {
+  public List<Contact> loadContactList(String url) throws IllegalAccessException {
     List<Contact> contactList = tsvFileLoader.loadData(url);
     return contactList;
   }
@@ -128,17 +128,18 @@ public class ContactServiceImpl implements ContactService {
   }
 
   @Override
-  public void storeRedport(Map reports, Map<String, Integer> counts,  Map<Integer, Map<String, String>> invalidContacts) throws IOException {
+  public void storeRedport(Map reports, Map<String, Integer> counts,  Map<Integer, Map<String, String>> invalidContacts) {
+    Writer writer = null;
+    File outputFile = null;
     for(Object object:report_headers.keySet()) {
+      try {
       String reportName = (String) object;
-      File outputFile = new File("output");
+      outputFile = new File("output");
       if (!outputFile.exists()) {
         outputFile.mkdirs();
       }
 
-      Writer writer = new FileWriter(new File(outputFile, reportName + ".tab"));
-
-
+      writer = new FileWriter(new File(outputFile, reportName + ".tab"));
       writer.write(report_headers.get(reportName));
 
       Map<String, Integer> report = (Map<String, Integer>) reports.get(reportName);
@@ -169,8 +170,14 @@ public class ContactServiceImpl implements ContactService {
           }
         }
       }
+
       writer.flush();
       System.out.println("Generated report " + "output/" + reportName + ".tab");
+      } catch (IOException e) {
+        e.printStackTrace();
+      } finally {
+
+      }
     }
   }
 

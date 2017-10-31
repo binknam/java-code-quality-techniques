@@ -42,24 +42,22 @@ public class TSVFileMapOrders implements FileMapOrders {
   }
 
   @Override
-  public Contact getMapedData(Object[] data) {
+  public Contact getMapedData(Object[] data) throws IllegalAccessException {
     List<Integer> fileOrders = getColumnOrders();
     Contact contact = new Contact();
     Field[] fields = Contact.class.getDeclaredFields();
-    try {
-      for (int i = 0; i < fields.length; i++){
-        if (fields[i].getDeclaredAnnotations().length != 0) {
-          fields[i].setAccessible(true);
-          if (fieldTitles[fileOrders.get(i)].equals("id")) {
-            fields[i].set(contact, Integer.parseInt(data[fileOrders.get(i)].toString()));
-          } else {
-            fields[i].set(contact, data[fileOrders.get(i)].toString());
-          }
+
+    for (int i = 0; i < fields.length; i++){
+      if (fields[i].getDeclaredAnnotations().length != 0) {
+        fields[i].setAccessible(true);
+        if (fieldTitles[fileOrders.get(i)].equals("id")) {
+          fields[i].set(contact, Integer.parseInt(data[fileOrders.get(i)].toString()));
+        } else {
+          fields[i].set(contact, data[fileOrders.get(i)].toString());
         }
       }
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
     }
+
     return contact;
   }
 }
